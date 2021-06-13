@@ -5,8 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
+    public CharacterController controller;
+    public Animator animator;
     public bool OnGround;
-    public float speed;
+    public float speed=200f;
+    public float Xmove=0f;
     public float jumpForce;
     public bool jumpCooldown;
     // Start is called before the first frame update
@@ -15,11 +18,17 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         jumpCooldown = true;
     }
-
+    void Update()
+    {
+        Xmove=Input.GetAxisRaw("Horizontal");
+        Debug.Log(Xmove);
+        animator.SetFloat("Velocity",Mathf.Abs(Xmove));
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         Movement();
+        controller.Move(Xmove,false,false);
     }
     void Movement()
     {
