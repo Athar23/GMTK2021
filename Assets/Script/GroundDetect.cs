@@ -5,6 +5,7 @@ using UnityEngine;
 public class GroundDetect : MonoBehaviour
 {
     public PlayerMovement pm;
+    public RayToMouse rtm;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,16 +19,25 @@ public class GroundDetect : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Ground")
+        switch (other.gameObject.tag)
         {
-            pm.OnGround = true;
+            case "Movable":
+            rtm.activated = false;
+            pm.OnGround=true; break;
+            case "Ground":
+            pm.OnGround = true; break;
+            default:
+            break;
         }
     }
     void OnTriggerExit2D(Collider2D other) 
     {
-        if (other.gameObject.tag == "Ground")
+        switch (other.gameObject.tag)
         {
-            pm.OnGround = false;
+            case "Ground":
+            pm.OnGround = false; break;
+            default:
+            break;
         }
     }
 }

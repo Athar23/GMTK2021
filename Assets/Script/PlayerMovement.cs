@@ -21,13 +21,20 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Xmove=Input.GetAxisRaw("Horizontal");
-        Debug.Log(Xmove);
+        if(OnGround)
         animator.SetFloat("Velocity",Mathf.Abs(Xmove));
+        if(Input.GetMouseButtonDown(0))animator.SetTrigger("Shoot");
     }
     // Update is called once per frame
     void FixedUpdate()
     {
         Movement();
+        if(Input.GetKeyDown("space")){
+            animator.SetTrigger("Jump");
+            controller.Move(Xmove,false,true);  
+        }
+        if(OnGround)animator.SetBool("OnGround",true);
+        else animator.SetBool("OnGround",false);
         controller.Move(Xmove,false,false);
     }
     void Movement()
